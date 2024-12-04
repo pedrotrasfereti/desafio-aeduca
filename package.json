@@ -30,5 +30,10 @@
   "bugs": {
     "url": "https://github.com/pedrotrasfereti/desafio-aeduca/issues"
   },
-  "homepage": "https://github.com/pedrotrasfereti/desafio-aeduca#readme"
+  "homepage": "https://github.com/pedrotrasfereti/desafio-aeduca#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.1",
+    "mysql2": "^3.11.5"
+  }
 }
