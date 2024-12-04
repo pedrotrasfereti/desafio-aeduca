@@ -18,6 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/pedrotrasfereti/desafio-aeduca.git"
   },
+  "type": "module",
   "keywords": [
     "full-stack",
     "nodejs",
