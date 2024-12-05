@@ -1,6 +1,6 @@
 import * as studentModel from '../models/studentModel.js';
 import studentSchema from '../utils/joi/studentSchema.js';
-import { BAD_REQUEST } from '../utils/statusCodes.js';
+import { BAD_REQUEST, NOT_FOUND } from '../utils/statusCodes.js';
 import ValidationError from '../utils/validationError.js';
 
 export const getAllStudents = async () => {
@@ -28,7 +28,7 @@ export const updateStudent = async (ra, student) => {
   if (!existingStudent) {
     throw new ValidationError(
       'Aluno com o RA informado não existe.',
-      BAD_REQUEST,
+      NOT_FOUND,
     );
   }
 
@@ -46,7 +46,7 @@ export const deleteStudent = async (ra) => {
   if (!existingStudent) {
     throw new ValidationError(
       'Aluno com o RA informado não existe.',
-      BAD_REQUEST,
+      NOT_FOUND,
     );
   }
 
