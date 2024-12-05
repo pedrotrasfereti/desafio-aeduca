@@ -1,0 +1,50 @@
+{
+  "root": true,
+  "env": {
+    "browser": true, // For frontend files
+    "node": true, // For backend files
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/vue3-recommended",
+    "prettier",
+    "plugin:node/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
+  "plugins": ["vue", "prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": "error",
+    "no-process-exit": "error"
+  },
+  "overrides": [
+    {
+      "files": ["backend/**/*.js"],
+      "env": {
+        "node": true
+      },
+      "extends": ["eslint:recommended"],
+      "rules": {
+        "no-console": "off",
+        "no-process-exit": "off",
+        "object-shorthand": "off",
+        "class-methods-use-this": "off"
+      }
+    },
+    {
+      "files": ["frontend/**/*.{js,vue}"],
+      "env": {
+        "browser": true
+      },
+      "extends": ["plugin:vue/vue3-recommended"],
+      "rules": {
+        "vue/require-default-prop": "off",
+        "vue/html-self-closing": "off"
+      }
+    }
+  ]
+}
