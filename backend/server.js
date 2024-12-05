@@ -22,13 +22,15 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Serve static files from the 'frontend/dist' directory
-app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the 'frontend/dist' directory
+  app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
-// Catch-all route to serve index.html for any route that isn't an API call
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
-});
+  // Catch-all route to serve index.html for any route that isn't an API call
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  });
+}
 
 app.listen(PORT, () => {
   console.log('Server started at http://localhost:5000');
