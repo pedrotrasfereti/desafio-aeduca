@@ -1,9 +1,16 @@
-import getAllStudentsService from '../services/studentService.js';
+import * as studentService from '../services/studentService.js';
 import asyncHandler from '../utils/asyncHandler.js';
+import { OK, CREATED } from '../utils/statusCodes.js';
 
-const getAllStudentsController = asyncHandler(async (req, res) => {
-  const data = await getAllStudentsService();
-  res.status(200).json({ success: true, data });
+export const getAllStudents = asyncHandler(async (_req, res) => {
+  const data = await studentService.getAllStudents();
+  res.status(OK).json({ success: true, data });
 });
 
-export default getAllStudentsController;
+export const createStudent = asyncHandler(async (req, res) => {
+  const student = req.body;
+
+  const data = await studentService.createStudent(student);
+
+  res.status(CREATED).json({ success: true, data });
+});
