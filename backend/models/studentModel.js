@@ -40,3 +40,7 @@ export const updateStudent = async (existingStudent, { nome, email }) => {
     cpf,
   };
 };
+
+export const deleteStudent = async (ra) => {
+  return pool.query('DELETE FROM students WHERE ra = ?', [ra]);
+};

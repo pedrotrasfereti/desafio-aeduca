@@ -39,3 +39,16 @@ export const updateStudent = async (ra, student) => {
 
   return updatedStudent;
 };
+
+export const deleteStudent = async (ra) => {
+  const existingStudent = await studentModel.getStudentByRa(ra);
+
+  if (!existingStudent) {
+    throw new ValidationError(
+      'Aluno com o RA informado não existe.',
+      BAD_REQUEST,
+    );
+  }
+
+  return studentModel.deleteStudent(ra);
+};
