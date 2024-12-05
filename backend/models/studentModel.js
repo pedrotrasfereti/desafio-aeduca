@@ -5,6 +5,15 @@ export const getAllStudents = async () => {
   return rows;
 };
 
+export const getStudentByRa = async (ra) => {
+  const [rows] = await pool.query('SELECT * FROM students WHERE ra = ?', [ra]);
+
+  if (rows.length === 0) return null;
+
+  // Return first result since "RA" is unique
+  return rows[0];
+};
+
 export const createStudent = async ({ nome, email, ra, cpf }) => {
   const [result] = await pool.query(
     'INSERT INTO students (nome, email, ra, cpf) VALUES (?, ?, ?, ?)',
