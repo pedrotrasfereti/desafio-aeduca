@@ -1,4 +1,4 @@
-import getAllStudents from '../models/studentModel';
+import getAllStudents from '../models/studentModel.js';
 
 const getAllStudentsService = async () => {
   const students = await getAllStudents();

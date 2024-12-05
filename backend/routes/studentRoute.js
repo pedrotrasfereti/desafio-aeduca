@@ -1,7 +1,7 @@
 import express from 'express';
 
 // Controllers
-import getAllStudentsController from '../controllers/studentController';
+import getAllStudentsController from '../controllers/studentController.js';
 
 const router = express.Router();
 

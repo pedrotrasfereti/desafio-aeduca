@@ -1,4 +1,4 @@
-import getAllStudentsService from '../services/studentService';
+import getAllStudentsService from '../services/studentService.js';
 
 const getAllStudentsController = async (req, res, next) => {
   try {
