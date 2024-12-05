@@ -13,10 +13,13 @@ This web application allows the institution to perform the following tasks:
 - Provide a responsive user interface with a professional design.
 
 <!-- DEMO -->
+
 ## Live Demo
+
 Coming soon!
 
 <!-- CONTACT -->
+
 ## Contact
 
 Pedro Trasfereti - [LinkedIn](https://www.linkedin.com/in/pedro-trasfereti/) - pedrotrasfereti@gmail.com
