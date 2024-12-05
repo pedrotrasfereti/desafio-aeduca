@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "backend": "NODE_ENV=development node --watch ./backend/server.js",
+    "frontend": "vite --config ./frontend/vite.config.js",
     "build": "npm install && vite build --config ./frontend/vite.config.js",
     "start": "NODE_ENV=production node ./backend/server.js",
     "lint": "eslint .",
@@ -35,6 +36,11 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
-    "mysql2": "^3.11.5"
+    "mysql2": "^3.11.5",
+    "vite": "^6.0.1",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1"
   }
 }
