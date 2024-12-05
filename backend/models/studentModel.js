@@ -22,3 +22,21 @@ export const createStudent = async ({ nome, email, ra, cpf }) => {
 
   return result.insertId;
 };
+
+export const updateStudent = async (existingStudent, { nome, email }) => {
+  const { ra, cpf } = existingStudent;
+
+  await pool.query('UPDATE students SET nome = ?, email = ? WHERE ra = ?', [
+    nome,
+    email,
+    ra,
+  ]);
+
+  // Return updated student
+  return {
+    ra,
+    nome,
+    email,
+    cpf,
+  };
+};

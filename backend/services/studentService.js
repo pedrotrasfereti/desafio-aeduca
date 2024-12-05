@@ -21,3 +21,21 @@ export const createStudent = async (student) => {
   const data = await studentModel.createStudent(student);
   return data;
 };
+
+export const updateStudent = async (ra, student) => {
+  const existingStudent = await studentModel.getStudentByRa(ra);
+
+  if (!existingStudent) {
+    throw new ValidationError(
+      'Aluno com o RA informado não existe.',
+      BAD_REQUEST,
+    );
+  }
+
+  const updatedStudent = await studentModel.updateStudent(
+    existingStudent,
+    student,
+  );
+
+  return updatedStudent;
+};

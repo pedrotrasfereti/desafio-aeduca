@@ -14,3 +14,12 @@ export const createStudent = asyncHandler(async (req, res) => {
 
   res.status(CREATED).json({ success: true, data });
 });
+
+export const updateStudent = asyncHandler(async (req, res) => {
+  const { ra } = req.params;
+  const student = req.body;
+
+  const data = await studentService.updateStudent(ra, student);
+
+  res.status(OK).json({ success: true, data });
+});
