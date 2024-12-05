@@ -45,6 +45,16 @@
         "vue/require-default-prop": "off",
         "vue/html-self-closing": "off"
       }
+    },
+    {
+      "files": ["vite.config.js"],
+      "env": {
+        "node": true
+      },
+      "extends": ["plugin:node/recommended"],
+      "rules": {
+        "node/no-unpublished-import": "off"
+      }
     }
   ]
 }
