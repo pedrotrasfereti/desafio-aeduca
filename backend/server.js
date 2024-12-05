@@ -3,7 +3,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
 
-import pool from './config/db.js';
+// Routes
+import studentRoutes from './routes/studentRoute.js';
 
 dotenv.config(); // Load environment variables
 
@@ -12,15 +13,8 @@ const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
 
-app.get('/', async (req, res) => {
-  try {
-    const [results] = await pool.query('SELECT * FROM students');
-    res.json(results);
-  } catch (err) {
-    console.error('Error fetching data:', err.message);
-    res.status(500).json({ error: 'Database query error' });
-  }
-});
+// Use routes
+app.use('/students', studentRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from the 'frontend/dist' directory
