@@ -15,7 +15,7 @@
     "ecmaVersion": 2021,
     "sourceType": "module"
   },
-  "plugins": ["vue", "prettier"],
+  "plugins": ["vue", "prettier", "import"],
   "rules": {
     "prettier/prettier": "error",
     "no-console": "error",
@@ -32,7 +32,23 @@
         "no-console": "off",
         "no-process-exit": "off",
         "object-shorthand": "off",
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        "import/order": [
+          "error",
+          {
+            "groups": [
+              "builtin", // Built-in types are first
+              "external", // External libraries
+              "internal", // Internal modules
+              ["parent", "sibling"], // Parent and sibling types can be mingled together
+              "index", // Then the index file
+              "object" // Object imports
+            ],
+            "newlines-between": "always",
+            "pathGroupsExcludedImportTypes": ["builtin"],
+            "alphabetize": { "order": "asc", "caseInsensitive": true }
+          }
+        ]
       }
     },
     {
