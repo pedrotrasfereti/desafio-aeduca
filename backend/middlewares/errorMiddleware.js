@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 
 dotenv.config(); // Load environment variables
 
-const errorMiddleware = (err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+const errorMiddleware = (err, _req, res, _next) => {
   console.error(err.stack);
 
   const statusCode = err.status || 500;

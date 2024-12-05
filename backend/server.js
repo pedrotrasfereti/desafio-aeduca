@@ -3,7 +3,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
 
-// Routes
+import errorMiddleware from './middlewares/errorMiddleware.js';
 import studentRoutes from './routes/studentRoute.js';
 
 dotenv.config(); // Load environment variables
@@ -13,8 +13,11 @@ const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
 
-// Use routes
+// Routes
 app.use('/students', studentRoutes);
+
+// Middlewares
+app.use(errorMiddleware);
 
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from the 'frontend/dist' directory
