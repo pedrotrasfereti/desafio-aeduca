@@ -7,7 +7,7 @@ const studentSchema = Joi.object({
   nome: Joi.string().min(3).required().messages({
     'string.base': 'O campo "Nome" deve ser uma string',
     'string.empty': 'O campo "Nome" não pode ficar vázio',
-    'string.length': 'O campo "Nome" deve conter pelo menos 3 letras',
+    'string.length': 'O campo "Nome" deve ter no mínimo 3 letras',
     'any.required': 'O campo "Nome" é obrigatório',
   }),
 

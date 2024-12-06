@@ -1,4 +1,4 @@
-import authService from '../services/authService.js';
+import * as authService from '../services/authService.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import { OK } from '../utils/statusCodes.js';
 

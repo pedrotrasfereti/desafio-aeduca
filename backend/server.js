@@ -6,6 +6,7 @@ import express from 'express';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import authRoutes from './routes/authRoute.js';
 import studentRoutes from './routes/studentRoute.js';
+import userRoutes from './routes/userRoute.js';
 
 dotenv.config(); // Load environment variables
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true })); // To parse URL-encoded request
 // Routes
 app.use('/auth', authRoutes);
 app.use('/students', studentRoutes);
+app.use('/users', userRoutes);
 
 // Middlewares
 app.use(errorMiddleware);
