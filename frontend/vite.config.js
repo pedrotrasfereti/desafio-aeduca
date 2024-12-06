@@ -18,4 +18,15 @@ export default defineConfig({
     },
   },
   plugins: [vue(), eslint()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './tests/setup.js',
+    moduleDirectories: ['../../../node_modules'],
+    server: {
+      deps: {
+        inline: ['vuetify'],
+      },
+    },
+  },
 });

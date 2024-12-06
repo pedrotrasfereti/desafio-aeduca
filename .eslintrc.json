@@ -57,18 +57,14 @@
       "env": {
         "browser": true
       },
-      "extends": ["plugin:vue/vue3-recommended"],
       "rules": {
+        "node/no-missing-import": "off",
         "vue/require-default-prop": "off",
         "vue/html-self-closing": "off"
       }
     },
     {
-      "files": ["vite.config.js"],
-      "env": {
-        "node": true
-      },
-      "extends": ["plugin:node/recommended"],
+      "files": ["frontend/vite.config.js", "frontend/tests/**/*.js"],
       "rules": {
         "node/no-unpublished-import": "off"
       }
