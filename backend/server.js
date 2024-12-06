@@ -3,6 +3,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
 
+import authenticateJWT from './middlewares/authenticateJWT.js';
+import authorizeAdmin from './middlewares/authorizeAdmin.js';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import authRoutes from './routes/authRoute.js';
 import studentRoutes from './routes/studentRoute.js';
@@ -21,7 +23,7 @@ app.use(express.urlencoded({ extended: true })); // To parse URL-encoded request
 
 // Routes
 app.use('/auth', authRoutes);
-app.use('/students', studentRoutes);
+app.use('/students', authenticateJWT, authorizeAdmin, studentRoutes);
 app.use('/users', userRoutes);
 
 // Middlewares
@@ -32,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
   // Catch-all route to serve index.html for any route that isn't an API call
-  app.get('*', (req, res) => {
+  app.get('*', (_req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
   });
 }
