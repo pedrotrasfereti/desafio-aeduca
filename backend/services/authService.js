@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import * as roleModel from '../models/roleModel.js';
 import * as userModel from '../models/userModel.js';
@@ -24,5 +25,11 @@ export const loginUser = async (login, password) => {
 
   const role = await roleModel.getRoleById(user.role_id);
 
-  return { login: user.login, role: role.role };
+  const token = jwt.sign(
+    { login: user.login, role: role.role }, // Sign payload
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' },
+  );
+
+  return { login: user.login, role: role.role, token };
 };
