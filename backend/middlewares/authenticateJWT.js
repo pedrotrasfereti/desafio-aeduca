@@ -2,9 +2,10 @@ import jwt from 'jsonwebtoken';
 
 import { FORBIDDEN, UNAUTHORIZED } from '../utils/statusCodes.js';
 
-const authMiddleware = (req, res, next) => {
+const authenticateJWT = (req, res, next) => {
   const token = String(req.headers['Authorization']).replace('Bearer ', '');
 
+  // Check token in headers
   if (!token) {
     return res
       .status(FORBIDDEN)
@@ -12,9 +13,13 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
+    // Verify JWT token
     const userData = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = userData; // Inject decoded user data into the request
 
+    // Inject decoded user data into the request
+    req.user = userData;
+
+    // Execute next middleware
     next();
   } catch (err) {
     return res
@@ -23,4 +28,4 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-export default authMiddleware;
+export default authenticateJWT;
