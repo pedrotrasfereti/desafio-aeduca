@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/pedrotrasfereti/desafio-aeduca#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cpf-cnpj-validator": "^1.0.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
