@@ -3,12 +3,12 @@ import path from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
 
-import authenticateJWT from './middlewares/authenticateJWT.js';
-import authorizeAdmin from './middlewares/authorizeAdmin.js';
-import errorMiddleware from './middlewares/errorMiddleware.js';
-import authRoutes from './routes/authRoute.js';
-import studentRoutes from './routes/studentRoute.js';
-import userRoutes from './routes/userRoute.js';
+import {
+  authenticateJWT,
+  authorizeAdmin,
+  errorMiddleware,
+} from './middlewares/index.js';
+import { authRoutes, studentRoutes, userRoutes } from './routes/index.js';
 
 dotenv.config(); // Load environment variables
 
