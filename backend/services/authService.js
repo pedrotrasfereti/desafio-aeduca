@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 import * as roleModel from '../models/roleModel.js';
 import * as userModel from '../models/userModel.js';
 import { BAD_REQUEST, UNAUTHORIZED } from '../utils/statusCodes.js';
@@ -10,7 +12,13 @@ export const loginUser = async (login, password) => {
 
   const user = await userModel.getUserByLogin(login);
 
-  if (!user || user.password !== password) {
+  if (!user) {
+    throw new ValidationError('Login ou senha inválidos', UNAUTHORIZED);
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+
+  if (!user || !passwordMatch) {
     throw new ValidationError('Login ou senha inválidos', UNAUTHORIZED);
   }
 
