@@ -17,11 +17,13 @@ const useUserStore = defineStore('userStore', {
       try {
         const { data } = await axios.post('/api/auth/login', credentials);
 
-        this.user = data.user;
+        this.user = { login: data.login, role: data.role };
         this.token = data.token;
         this.isAuthenticated = true;
+
+        return { success: true, message: 'Login realizado com sucesso' };
       } catch (err) {
-        return { success: false, message: err };
+        return { success: false, message: err.response.data.message };
       } finally {
         this.loading = false;
       }
