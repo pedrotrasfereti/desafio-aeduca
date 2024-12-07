@@ -1,7 +1,8 @@
 // Components
-import LoginPage from '../pages/LoginPage.vue';
-import DashboardPage from '../pages/DashboardPage.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+
+import DashboardPage from '../pages/DashboardPage.vue';
+import LoginPage from '../pages/LoginPage.vue';
 
 const routes = [
   {

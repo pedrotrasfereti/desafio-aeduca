@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+
 import DashboardPage from '../../src/pages/DashboardPage.vue';
 
 describe('Painel de gerenciamento', () => {

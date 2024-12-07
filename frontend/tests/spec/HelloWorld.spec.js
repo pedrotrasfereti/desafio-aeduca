@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { expect, test } from 'vitest';
+
 import HelloWorld from '../../src/components/HelloWorld.vue';
 
 test('displays message', () => {

@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/pedrotrasfereti/desafio-aeduca#readme",
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "bcrypt": "^5.1.1",
     "cpf-cnpj-validator": "^1.0.3",
     "dotenv": "^16.4.7",
@@ -41,6 +42,7 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.5",
+    "roboto-fontface": "^0.10.0",
     "vite": "^6.0.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
@@ -59,7 +61,11 @@
     "jsdom": "^25.0.1",
     "prettier": "3.4.2",
     "resize-observer-polyfill": "^1.5.1",
+    "sass": "^1.82.0",
+    "sass-embedded": "^1.82.0",
+    "unplugin-fonts": "^1.3.1",
     "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-vuetify": "^2.0.4",
     "vitest": "^2.1.8"
   }
 }
