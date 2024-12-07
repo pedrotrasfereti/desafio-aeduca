@@ -35,6 +35,7 @@
   "homepage": "https://github.com/pedrotrasfereti/desafio-aeduca#readme",
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "cpf-cnpj-validator": "^1.0.3",
     "dotenv": "^16.4.7",
@@ -42,6 +43,7 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.5",
+    "pinia": "^2.3.0",
     "roboto-fontface": "^0.10.0",
     "vite": "^6.0.1",
     "vue": "^3.5.13",
