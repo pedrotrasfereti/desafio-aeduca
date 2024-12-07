@@ -1,3 +1,3 @@
-export { default as authRoute } from './authRoute.js';
-export { default as studentRoute } from './studentRoute.js';
-export { default as userRoute } from './userRoute.js';
+export { default as authRoutes } from './authRoute.js';
+export { default as studentRoutes } from './studentRoute.js';
+export { default as userRoutes } from './userRoute.js';
