@@ -19,7 +19,24 @@
   "rules": {
     "prettier/prettier": "error",
     "no-console": "error",
-    "no-process-exit": "error"
+    "no-process-exit": "error",
+    "import/extensions": ["error", "always"],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin", // Built-in types are first
+          "external", // External libraries
+          "internal", // Internal modules
+          ["parent", "sibling"], // Parent and sibling types can be mingled together
+          "index", // Then the index file
+          "object" // Object imports
+        ],
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
+      }
+    ]
   },
   "overrides": [
     {
@@ -32,24 +49,7 @@
         "no-console": "off",
         "no-process-exit": "off",
         "object-shorthand": "off",
-        "class-methods-use-this": "off",
-        "import/extensions": ["error", "always"],
-        "import/order": [
-          "error",
-          {
-            "groups": [
-              "builtin", // Built-in types are first
-              "external", // External libraries
-              "internal", // Internal modules
-              ["parent", "sibling"], // Parent and sibling types can be mingled together
-              "index", // Then the index file
-              "object" // Object imports
-            ],
-            "newlines-between": "always",
-            "pathGroupsExcludedImportTypes": ["builtin"],
-            "alphabetize": { "order": "asc", "caseInsensitive": true }
-          }
-        ]
+        "class-methods-use-this": "off"
       }
     },
     {
@@ -60,7 +60,8 @@
       "rules": {
         "node/no-missing-import": "off",
         "vue/require-default-prop": "off",
-        "vue/html-self-closing": "off"
+        "vue/html-self-closing": "off",
+        "import/extensions": "off"
       }
     },
     {
