@@ -1,9 +1,16 @@
+<script setup>
+import Header from '../components/HeaderComponent.vue';
+import Navbar from '../components/NavbarComponent.vue';
+</script>
+
 <template>
-  <header>Header</header>
+  <v-layout>
+    <Navbar />
 
-  <nav>Navbar</nav>
+    <Header />
 
-  <v-main>
-    <router-view />
-  </v-main>
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-layout>
 </template>
