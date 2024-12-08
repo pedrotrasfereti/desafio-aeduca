@@ -31,6 +31,13 @@ const useUserStore = defineStore('userStore', {
       }
     },
 
+    logout() {
+      this.user = null;
+      this.isAuthenticated = false;
+      localStorage.removeItem('token'); // Clear token
+      localStorage.removeItem('user'); // Clear user
+    },
+
     initializeAuth() {
       const token = localStorage.getItem('token');
       const user = JSON.parse(localStorage.getItem('user'));

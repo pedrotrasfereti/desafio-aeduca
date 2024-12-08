@@ -1,3 +1,20 @@
+<script setup>
+import { useRouter } from 'vue-router';
+
+import useUserStore from '../stores/userStore';
+
+// Router
+const router = useRouter();
+
+// State
+const userStore = useUserStore();
+
+const handleLogout = () => {
+  userStore.logout();
+  router.push('/');
+};
+</script>
+
 <template>
   <v-navigation-drawer color="background-variant" permanent>
     <div class="d-flex flex-column fill-height">
@@ -5,7 +22,7 @@
         <v-list-item>
           <v-img
             class="mx-auto ma-6"
-            max-width="125"
+            max-width="135"
             src="../assets/logo.png"
           />
         </v-list-item>
@@ -38,6 +55,7 @@
         size="x-large"
         prepend-icon="mdi-logout"
         rounded="0"
+        @click="handleLogout"
       >
         <span class="text-overline">Sair</span>
       </v-btn>
