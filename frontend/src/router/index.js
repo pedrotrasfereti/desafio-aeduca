@@ -1,6 +1,8 @@
 // Components
 import { createRouter, createWebHistory } from 'vue-router';
 
+import DashboardLayout from '../layouts/DashboardLayout.vue';
+import LoginLayout from '../layouts/LoginLayout.vue';
 import DashboardPage from '../pages/DashboardPage.vue';
 import LoginPage from '../pages/LoginPage.vue';
 import useUserStore from '../stores/userStore';
@@ -30,14 +32,26 @@ const refreshToken = (_to, _from, next) => {
 const routes = [
   {
     path: '/',
-    name: 'Login',
-    component: LoginPage,
+    component: LoginLayout,
+    children: [
+      {
+        path: '',
+        name: 'Login',
+        component: LoginPage,
+      },
+    ],
     beforeEnter: refreshToken,
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
-    component: DashboardPage,
+    component: DashboardLayout,
+    children: [
+      {
+        path: '',
+        name: 'Dashboard',
+        component: DashboardPage,
+      },
+    ],
     beforeEnter: authGuard,
   },
 ];

@@ -38,6 +38,9 @@ const useUserStore = defineStore('userStore', {
       if (token) {
         this.token = token;
         this.isAuthenticated = true;
+      } else {
+        this.token = null;
+        this.isAuthenticated = false;
       }
     },
   },
