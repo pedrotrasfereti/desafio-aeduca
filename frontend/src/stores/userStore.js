@@ -21,11 +21,23 @@ const useUserStore = defineStore('userStore', {
         this.token = data.token;
         this.isAuthenticated = true;
 
+        // Persist token in local storage
+        localStorage.setItem('token', data.token);
+
         return { success: true, message: 'Login realizado com sucesso' };
       } catch (err) {
         return { success: false, message: err.response.data.message };
       } finally {
         this.loading = false;
+      }
+    },
+
+    initializeAuth() {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        this.token = token;
+        this.isAuthenticated = true;
       }
     },
   },

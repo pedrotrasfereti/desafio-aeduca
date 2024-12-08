@@ -15,23 +15,24 @@ const authGuard = (_to, _from, next) => {
   }
 };
 
+const refreshToken = (_to, _from, next) => {
+  const userStore = useUserStore();
+
+  userStore.initializeAuth();
+
+  if (userStore.isAuthenticated) {
+    next('/dashboard');
+  } else {
+    next();
+  }
+};
+
 const routes = [
   {
     path: '/',
     name: 'Login',
     component: LoginPage,
-    beforeEnter: (to, from, next) => {
-      const userStore = useUserStore();
-      userStore.initializeAuth();
-
-      if (userStore.isAuthenticated) {
-        // Redirect authenticated user to dashboard
-        next('/dashboard');
-      } else {
-        // Allow unauthenticated user to access the login page
-        next();
-      }
-    },
+    beforeEnter: refreshToken,
   },
   {
     path: '/dashboard',
