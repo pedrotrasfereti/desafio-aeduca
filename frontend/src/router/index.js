@@ -10,6 +10,8 @@ import useUserStore from '../stores/userStore';
 const authGuard = (_to, _from, next) => {
   const userStore = useUserStore();
 
+  userStore.initializeAuth();
+
   if (userStore.isAuthenticated) {
     next();
   } else {
@@ -17,7 +19,7 @@ const authGuard = (_to, _from, next) => {
   }
 };
 
-const refreshToken = (_to, _from, next) => {
+const initializeAuth = (_to, _from, next) => {
   const userStore = useUserStore();
 
   userStore.initializeAuth();
@@ -40,7 +42,7 @@ const routes = [
         component: LoginPage,
       },
     ],
-    beforeEnter: refreshToken,
+    beforeEnter: initializeAuth,
   },
   {
     path: '/dashboard',
