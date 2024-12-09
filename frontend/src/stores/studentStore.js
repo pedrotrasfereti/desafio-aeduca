@@ -51,7 +51,7 @@ const useStudentStore = defineStore('studentStore', {
       this.loading = true;
 
       try {
-        const { data } = apiClient.post('/students', studentData);
+        const { data } = await apiClient.post('/students', studentData);
 
         showSnackbar({ message: data.message, color: 'success' });
       } catch (err) {
@@ -70,7 +70,7 @@ const useStudentStore = defineStore('studentStore', {
       this.loading = true;
 
       try {
-        const { data } = apiClient.put(`/students/${ra}`, studentData);
+        const { data } = await apiClient.put(`/students/${ra}`, studentData);
 
         showSnackbar({ message: data.message, color: 'success' });
       } catch (err) {
@@ -89,7 +89,7 @@ const useStudentStore = defineStore('studentStore', {
       this.loading = true;
 
       try {
-        const { data } = apiClient.delete(`/students/${ra}`);
+        const { data } = await apiClient.delete(`/students/${ra}`);
 
         showSnackbar({ message: data.message, color: 'success' });
       } catch (err) {
