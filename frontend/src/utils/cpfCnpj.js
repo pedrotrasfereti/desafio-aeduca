@@ -8,7 +8,7 @@ export const validateCPF = (str) => {
   // Remove mask
   str = removeCpfMask(str);
 
-  cpf.isValid(str);
+  return cpf.isValid(str);
 };
 
 export const formatCPF = (str) => {
