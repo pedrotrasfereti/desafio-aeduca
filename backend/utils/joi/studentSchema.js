@@ -18,10 +18,9 @@ const studentSchema = Joi.object({
     'any.required': 'O campo "Email" é obrigatório',
   }),
 
-  ra: Joi.string().length(8).required().messages({
+  ra: Joi.string().required().messages({
     'string.base': 'O campo "RA" deve ser uma string',
     'string.empty': 'O campo "RA" não pode ficar vázio',
-    'string.length': 'O campo "RA" deve ter 8 digitos',
     'any.required': 'O campo "RA" é obrigatório',
   }),
 
