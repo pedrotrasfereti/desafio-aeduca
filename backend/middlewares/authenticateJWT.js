@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { FORBIDDEN, UNAUTHORIZED } from '../utils/statusCodes.js';
 
 const authenticateJWT = (req, res, next) => {
-  const token = String(req.headers['Authorization']).replace('Bearer ', '');
+  const token = String(req.headers['authorization']).replace('Bearer ', '');
 
   // Check token in headers
   if (!token) {
