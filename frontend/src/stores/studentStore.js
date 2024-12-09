@@ -34,6 +34,12 @@ const useStudentStore = defineStore('studentStore', {
         const { data } = await apiClient.get('/students');
 
         this.students = data.data;
+
+        return { success: true, message: '' };
+      } catch (err) {
+        if (err.response.status === 401) {
+          return { success: false, message: 'Sua sessão expirou' };
+        }
       } finally {
         this.loading = false;
       }
