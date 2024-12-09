@@ -1,7 +1,6 @@
 <script setup>
 import Header from '../components/HeaderComponent.vue';
 import Navbar from '../components/NavbarComponent.vue';
-import Snackbar from '../components/SnackbarComponent.vue';
 </script>
 
 <template>
@@ -9,8 +8,6 @@ import Snackbar from '../components/SnackbarComponent.vue';
     <Navbar />
 
     <Header />
-
-    <Snackbar />
 
     <v-main>
       <router-view />

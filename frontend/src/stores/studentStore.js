@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
 
-import useSnackbarStore from './snackbarStore';
-
 const apiClient = axios.create({ baseURL: 'api' });
 
 // Pass token to headers on every request
@@ -46,59 +44,29 @@ const useStudentStore = defineStore('studentStore', {
     },
 
     async createStudent(studentData) {
-      const { showSnackbar } = useSnackbarStore();
-
-      this.loading = true;
-
       try {
         const { data } = await apiClient.post('/students', studentData);
-
-        showSnackbar({ message: data.message, color: 'success' });
+        return data;
       } catch (err) {
-        showSnackbar({
-          message: err.response.data.message,
-          color: 'error',
-        });
-      } finally {
-        this.loading = false;
+        return { success: false, message: err.response.data.message };
       }
     },
 
     async updateStudent(ra, studentData) {
-      const { showSnackbar } = useSnackbarStore();
-
-      this.loading = true;
-
       try {
         const { data } = await apiClient.put(`/students/${ra}`, studentData);
-
-        showSnackbar({ message: data.message, color: 'success' });
+        return data;
       } catch (err) {
-        showSnackbar({
-          message: err.response.data.message,
-          color: 'error',
-        });
-      } finally {
-        this.loading = false;
+        return { success: false, message: err.response.data.message };
       }
     },
 
     async deleteStudent(ra) {
-      const { showSnackbar } = useSnackbarStore();
-
-      this.loading = true;
-
       try {
         const { data } = await apiClient.delete(`/students/${ra}`);
-
-        showSnackbar({ message: data.message, color: 'success' });
+        return data;
       } catch (err) {
-        showSnackbar({
-          message: err.response.data.message,
-          color: 'error',
-        });
-      } finally {
-        this.loading = false;
+        return { success: false, message: err.response.data.message };
       }
     },
   },
