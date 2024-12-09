@@ -18,9 +18,26 @@ describe('Painel de gerenciamento', () => {
 
     // Mock Pinia store actions
     studentStore.getAllStudents = vi.fn().mockImplementation(() => {});
-    studentStore.createStudent = vi.fn().mockImplementation(() => {});
-    studentStore.deleteStudent = vi.fn().mockImplementation(() => {});
-    studentStore.updateStudent = vi.fn().mockImplementation(() => {});
+
+    studentStore.createStudent = vi.fn().mockImplementation((newStudent) => {
+      mockStudents.push(newStudent);
+    });
+
+    studentStore.deleteStudent = vi.fn().mockImplementation((ra) => {
+      const index = mockStudents.findIndex((student) => student.ra === ra);
+      if (index !== -1) {
+        mockStudents.splice(index, 1);
+      }
+    });
+
+    studentStore.updateStudent = vi
+      .fn()
+      .mockImplementation((ra, updatedData) => {
+        const student = mockStudents.find((student) => student.ra === ra);
+        if (student) {
+          Object.assign(student, updatedData);
+        }
+      });
   });
 
   const wrapper = mount(DashboardPage);
@@ -57,6 +74,7 @@ describe('Painel de gerenciamento', () => {
   it('deve exibir a opção "Editar" por aluno', async () => {
     const editButtons = wrapper.findAll('button[aria-label="Editar Aluno"]');
 
+    // Assertions
     expect(editButtons.length).toBe(mockStudents.length);
 
     editButtons.forEach((button, index) => {
@@ -67,10 +85,82 @@ describe('Painel de gerenciamento', () => {
   it('deve exibir a opção "Deletar" por aluno', async () => {
     const editButtons = wrapper.findAll('button[aria-label="Deletar Aluno"]');
 
+    // Assertions
     expect(editButtons.length).toBe(mockStudents.length);
 
     editButtons.forEach((button, index) => {
       expect(button.attributes('data-ra')).toBe(String(mockStudents[index].ra));
+    });
+  });
+
+  describe('Ao clicar em "Cadastrar Aluno"', () => {
+    const registerButton = wrapper.find(
+      'button[data-testid="register-button"]',
+    );
+
+    const raInput = wrapper.find('input[placeholder="Digite o RA do aluno"]');
+    const nameInput = wrapper.find(
+      'input[placeholder="Digite o nome do aluno"]',
+    );
+    const emailInput = wrapper.find(
+      'input[placeholder="Digite o e-mail do aluno"]',
+    );
+    const cpfInput = wrapper.find('input[placeholder="Digite o CPF do aluno"]');
+    const cancelBtn = wrapper.find('button[data-testid="cancel-btn"]');
+    const saveBtn = wrapper.find('button[data-testid="save-btn"]');
+
+    registerButton.trigger('click');
+
+    // Assertions
+    it('deve mostrar o modal de "Cadastro do Aluno"', () => {
+      expect(wrapper.text()).toContain('Cadastro do Aluno');
+    });
+
+    it('deve exibir os campos obrigatórios vazios', () => {
+      expect(raInput.exists()).toBe(true);
+      expect(nameInput.exists()).toBe(true);
+      expect(emailInput.exists()).toBe(true);
+      expect(cpfInput.exists()).toBe(true);
+      expect(raInput.element.value).toBe('');
+      expect(nameInput.element.value).toBe('');
+      expect(emailInput.element.value).toBe('');
+      expect(cpfInput.element.value).toBe('');
+    });
+
+    describe('Ao preencher o formulário com dados válidos e clicar em Salvar', () => {
+      raInput.setValue('157980');
+      nameInput.setValue('Aline Correia');
+      emailInput.setValue('alinecorreia@exemplo.com');
+      cpfInput.setValue('58446298333');
+      saveBtn.trigger('click');
+
+      // Assertions
+      it('deve criar o novo aluno na base', () => {
+        expect(wrapper.text()).toContain('Aline Correia');
+      });
+
+      it('deve retornar mensagem de sucesso', () => {
+        expect(wrapper.text()).toContain('Aluno cadastrado com sucesso.');
+      });
+    });
+
+    describe('Ao preencher o formulário com dados válidos e clicar em Cancelar', () => {
+      const rows = wrapper.findAll('tbody tr');
+
+      raInput.setValue('157980');
+      nameInput.setValue('Aline Correia');
+      emailInput.setValue('alinecorreia@exemplo.com');
+      cpfInput.setValue('58446298333');
+      cancelBtn.trigger('click');
+
+      // Assertions
+      it('deve retornar para tela de Consulta de Alunos', () => {
+        expect(wrapper.text()).toContain('Consulta de Alunos');
+      });
+
+      it('não deve persistir a gravação dos dados no banco', () => {
+        expect(rows.length).toBe(mockStudents.length);
+      });
     });
   });
 });
