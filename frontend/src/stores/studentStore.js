@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
 
-const apiClient = axios.create({ baseURL: 'api' });
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+const apiClient = axios.create({ baseURL });
 
 // Pass token to headers on every request
 apiClient.interceptors.request.use(

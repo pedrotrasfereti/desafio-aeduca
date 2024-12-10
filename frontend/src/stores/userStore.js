@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+const apiClient = axios.create({ baseURL });
+
 const useUserStore = defineStore('userStore', {
   state: () => ({
     user: null,
@@ -14,7 +17,7 @@ const useUserStore = defineStore('userStore', {
       this.error = null;
 
       try {
-        const { data } = await axios.post('api/auth/login', credentials);
+        const { data } = await apiClient.post('/auth/login', credentials);
 
         this.user = { login: data.data.login, role: data.data.role };
         this.isAuthenticated = true;
