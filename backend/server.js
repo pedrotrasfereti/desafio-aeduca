@@ -1,5 +1,6 @@
 import path from 'path';
 
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 
@@ -20,6 +21,16 @@ const __dirname = path.resolve();
 app.use(express.json()); // To parse JSON request bodies
 
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded request bodies
+
+// Add CORS
+app.use(
+  cors({
+    origin: 'https://desafio-aeduca.vercel.app',
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true, // Allow cookies with cross-origin requests
+  }),
+);
 
 // Routes
 app.use('/api/auth', authRoutes);
