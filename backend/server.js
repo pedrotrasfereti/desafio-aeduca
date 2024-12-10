@@ -27,7 +27,8 @@ app.use(
   cors({
     origin: 'https://desafio-aeduca.vercel.app',
     methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
+    allowedHeaders:
+      'Content-Type, Authorization, Cache-Control, Expires, Pragma',
     credentials: true, // Allow cookies with cross-origin requests
   }),
 );
