@@ -52,8 +52,8 @@ export default createVuetify({
   theme: {
     defaultTheme: 'aeducaTheme',
     variations: {
-      colors: ['primary', 'secondary'],
-      lighten: 1,
+      colors: ['error', 'primary', 'secondary'],
+      lighten: 2,
       darken: 1,
     },
     themes: {

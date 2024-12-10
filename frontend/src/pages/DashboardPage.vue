@@ -26,6 +26,7 @@ const editedStudent = ref({
 const deleteDialog = ref(false);
 const dialog = ref(false);
 const sessionExpiredDialog = ref(false);
+const search = ref('');
 const snackbar = ref({ color: '', message: '' });
 const snackbarVisible = ref(false);
 
@@ -168,6 +169,7 @@ onMounted(init);
           <v-spacer />
 
           <v-text-field
+            v-model="search"
             aria-label="Pesquisar"
             append-inner-icon="mdi-magnify"
             color="secondary"
@@ -195,7 +197,11 @@ onMounted(init);
         <v-data-table
           :headers="headers"
           :items="studentStore.students"
+          :items-per-page="6"
+          :items-per-page-options="[3, 6, 9]"
           :loading="studentStore.loading"
+          :search="search"
+          items-per-page-text="Resultados por página"
         >
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template #item.actions="{ item }">
@@ -214,6 +220,7 @@ onMounted(init);
             <v-btn
               :data-ra="item.ra"
               aria-label="Deletar Aluno"
+              color="error-lighten-2"
               height="30"
               icon="mdi-delete"
               size="small"
