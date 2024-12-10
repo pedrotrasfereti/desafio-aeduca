@@ -19,6 +19,13 @@ const authenticateJWT = (req, res, next) => {
     // Inject decoded user data into the request
     req.user = userData;
 
+    // Set the cookie for cross-site requests
+    res.cookie('__vercel_live_token', token, {
+      httpOnly: true,
+      secure: true, // Ensure it's only sent over HTTPS
+      sameSite: 'None', // Allow the cookie to be sent in cross-site requests
+    });
+
     // Execute next middleware
     next();
   } catch (err) {
