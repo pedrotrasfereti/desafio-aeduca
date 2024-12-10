@@ -45,6 +45,10 @@ Embora o sistema não seja projetado para escalar horizontalmente no momento, a 
 - **[dotenv](https://www.npmjs.com/package/dotenv)**: Biblioteca para carregar variáveis de ambiente definidas no arquivo `.env`.
 - **[joi](https://joi.dev/)**: Escolhi essa biblioteca pela habilidade de definir schemas para validação e personalizar mensagens de erro. Ela trouxe vários benefícios, como visualização da estrutura dos dados, melhor tratamento de erro e, claro, economia de tempo, já que não é necessário escrever a lógica das regras de negócio manualmente.
 
+#### Segurança
+
+- **[cors](https://github.com/expressjs/cors)**: Como decidi publicar o back-end e front-end em domínios separados (Render e Vercel, respectivamente), usei esse middleware para habilitar CORS no Express.js.
+
 #### Autenticação e Autorização
 
 - **[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)**: Biblioteca para criação e verificação de tokens JWT (JSON Web Token), usada para autenticar usuários e garantir que eles possuam as permissões necessárias para acessar recursos protegidos da API.
