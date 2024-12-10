@@ -1,15 +1,33 @@
 <script setup>
-// import { ref } from 'vue';
-import { nextTick, onMounted } from 'vue';
+import { computed, ref } from 'vue';
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 import useStudentStore from '../stores/studentStore';
+import useUserStore from '../stores/userStore';
+import { formatCPF, removeCpfMask, validateCPF } from '../utils/cpfCnpj';
+import validateEmail from '../utils/validateEmail';
 
+// Router
+const router = useRouter();
+
+// State
 const studentStore = useStudentStore();
+const { logout } = useUserStore();
 
-// const editedStudent = ref({
-//   nome: '',
-//   email: '',
-// });
+const studentIndex = ref(-1);
+const editedStudent = ref({
+  ra: '',
+  nome: '',
+  email: '',
+  cpf: '',
+});
+
+const deleteDialog = ref(false);
+const dialog = ref(false);
+const sessionExpiredDialog = ref(false);
+const snackbar = ref({ color: '', message: '' });
+const snackbarVisible = ref(false);
 
 const headers = [
   {
@@ -22,20 +40,117 @@ const headers = [
     title: 'CPF',
     align: 'start',
     key: 'cpf',
-    value: (item) => {
-      const badchars = /[^\d]/g;
-      const mask = /(\d{3})(\d{3})(\d{3})(\d{2})/;
-      const cpf = new String(item.cpf).replace(badchars, '');
-      return cpf.replace(mask, '$1.$2.$3-$4');
-    },
+    value: ({ cpf }) => formatCPF(cpf),
   },
   { title: 'Ações', align: 'start', key: 'actions', sortable: false },
 ];
 
+// Computed
+const cpfRules = computed(() => [
+  (value) => {
+    if (validateCPF(value)) return true;
+    return 'CPF inválido.';
+  },
+]);
+
+const emailRules = computed(() => [
+  (value) => {
+    if (validateEmail(value)) return true;
+    return 'Email inválido.';
+  },
+]);
+
+const nameRules = computed(() => [
+  (value) => {
+    if (value && value.length >= 3) return true;
+    return 'Nome deve ter pelo menos 3 caracteres.';
+  },
+]);
+
+const raRules = computed(() => [
+  (value) => {
+    if (value && value.length >= 1) return true;
+    return 'RA deve ter pelo menos 1 caracter.';
+  },
+]);
+
 // Methods
+const closeDeleteDialog = () => {
+  deleteDialog.value = false;
+  resetForm();
+};
+
+const closeDialog = () => {
+  dialog.value = false;
+  resetForm();
+};
+
+const openDialog = (student) => {
+  if (student !== undefined) {
+    studentIndex.value = +student.ra;
+    editedStudent.value.ra = student.ra;
+    editedStudent.value.nome = student.nome;
+    editedStudent.value.email = student.email;
+    editedStudent.value.cpf = student.cpf;
+  }
+  dialog.value = true;
+};
+
+const openDeleteDialog = (student) => {
+  studentIndex.value = +student.ra;
+  deleteDialog.value = true;
+};
+
+const resetForm = () => {
+  studentIndex.value = -1;
+  editedStudent.value = {
+    ra: '',
+    nome: '',
+    email: '',
+    cpf: '',
+  };
+};
+
+const showSnackbar = ({ message, color }) => {
+  snackbar.value = { message, color };
+  snackbarVisible.value = true;
+
+  setTimeout(() => (snackbarVisible.value = false), 6000);
+};
+
 const init = async () => {
-  studentStore.getAllStudents();
-  nextTick();
+  const { success } = await studentStore.getAllStudents();
+  if (!success) sessionExpiredDialog.value = true;
+};
+
+const deleteStudent = async () => {
+  const { success, message } = await studentStore.deleteStudent(
+    studentIndex.value,
+  );
+  showSnackbar({ message, color: success ? 'success' : 'error' });
+  init();
+  closeDeleteDialog();
+};
+
+const saveStudent = async () => {
+  const student = {
+    ...editedStudent.value,
+    cpf: removeCpfMask(editedStudent.value.cpf),
+  };
+
+  if (studentIndex.value === -1) {
+    const { success, message } = await studentStore.createStudent(student);
+    showSnackbar({ message, color: success ? 'success' : 'error' });
+  } else {
+    const { success, message } = await studentStore.updateStudent(
+      studentIndex.value,
+      student,
+    );
+    showSnackbar({ message, color: success ? 'success' : 'error' });
+  }
+
+  init();
+  closeDialog();
 };
 
 onMounted(init);
@@ -53,9 +168,10 @@ onMounted(init);
           <v-spacer />
 
           <v-text-field
+            aria-label="Pesquisar"
+            append-inner-icon="mdi-magnify"
             color="secondary"
             density="compact"
-            append-inner-icon="mdi-magnify"
             placeholder="Pesquisar..."
             variant="outlined"
             hide-details
@@ -70,6 +186,7 @@ onMounted(init);
             variant="flat"
             flat
             data-testid="register-button"
+            @click="() => openDialog()"
           >
             Cadastrar Aluno
           </v-btn>
@@ -91,6 +208,7 @@ onMounted(init);
               size="small"
               variant="text"
               width="30"
+              @click="() => openDialog(item)"
             />
 
             <v-btn
@@ -101,6 +219,7 @@ onMounted(init);
               size="small"
               variant="text"
               width="30"
+              @click="() => openDeleteDialog(item)"
             />
           </template>
 
@@ -123,6 +242,162 @@ onMounted(init);
         </v-data-table>
       </v-card>
     </v-container>
+
+    <!-- delete student dialog -->
+    <v-dialog v-model="deleteDialog" :attach="true" max-width="400" persistent>
+      <v-card title="Deletar Aluno">
+        <v-card-text>Tem certeza que deseja deletar o aluno?</v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            color="grey"
+            data-testid="cancel-delete-btn"
+            variant="text"
+            @click="closeDeleteDialog"
+          >
+            Cancelar
+          </v-btn>
+
+          <v-btn
+            color="primary"
+            data-testid="confirm-delete-btn"
+            variant="text"
+            @click="deleteStudent"
+          >
+            Deletar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- register/edit student dialog -->
+    <v-dialog v-model="dialog" :attach="true" max-width="500" persistent>
+      <v-card>
+        <v-card-title data-testid="register-dialog-title">
+          <v-icon>mdi-account-school</v-icon>
+
+          Cadastro do Aluno
+        </v-card-title>
+
+        <v-card-text>
+          <v-container>
+            <v-row dense>
+              <v-col cols="12" md="5">
+                <v-text-field
+                  v-model="editedStudent.ra"
+                  :disabled="studentIndex !== -1"
+                  :rules="raRules"
+                  color="primary"
+                  data-testid="student-ra-input"
+                  label="RA*"
+                  placeholder="123"
+                  aria-required
+                  required
+                />
+              </v-col>
+
+              <v-col cols="12" md="7">
+                <v-text-field
+                  v-model="editedStudent.cpf"
+                  :disabled="studentIndex !== -1"
+                  :rules="cpfRules"
+                  color="primary"
+                  data-testid="student-cpf-input"
+                  label="CPF*"
+                  placeholder="000.000.000-00"
+                  aria-required
+                  required
+                />
+              </v-col>
+
+              <v-col cols="12" md="12">
+                <v-text-field
+                  v-model="editedStudent.nome"
+                  :rules="nameRules"
+                  color="primary"
+                  data-testid="student-name-input"
+                  label="Nome*"
+                  aria-required
+                  required
+                />
+              </v-col>
+
+              <v-col cols="12" md="12">
+                <v-text-field
+                  v-model="editedStudent.email"
+                  :rules="emailRules"
+                  color="primary"
+                  data-testid="student-email-input"
+                  label="E-mail*"
+                  placeholder="email@domain.com"
+                  type="email"
+                  aria-required
+                  required
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+
+          <small class="text-caption text-on-surface">
+            *indica campos obrigatórios
+          </small>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            color="grey"
+            data-testid="cancel-btn"
+            variant="text"
+            @click="closeDialog"
+          >
+            Cancelar
+          </v-btn>
+
+          <v-btn
+            color="primary"
+            data-testid="save-btn"
+            variant="text"
+            @click="saveStudent"
+          >
+            Salvar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- session expired dialog -->
+    <v-dialog v-model="sessionExpiredDialog" max-width="400" persistent>
+      <v-card title="Sua sessão expirou">
+        <v-card-text>
+          Clique no botão abaixo para ir à página de login.
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn
+            color="primary"
+            text="Fazer login"
+            block
+            @click="
+              logout();
+              router.push('/');
+            "
+          />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- success/error snackbar -->
+    <v-snackbar
+      v-model="snackbarVisible"
+      :attach="true"
+      :color="snackbar.color"
+    >
+      {{ snackbar.message }}
+    </v-snackbar>
   </v-sheet>
 </template>
 
