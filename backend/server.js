@@ -22,9 +22,9 @@ app.use(express.json()); // To parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded request bodies
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/students', authenticateJWT, authorizeAdmin, studentRoutes);
-app.use('/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/students', authenticateJWT, authorizeAdmin, studentRoutes);
+app.use('/api/users', userRoutes);
 
 // Middlewares
 app.use(errorMiddleware);
