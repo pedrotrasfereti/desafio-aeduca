@@ -15,7 +15,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'https://desafio-aeduca.onrender.com/',
+        target: 'http://localhost:5000',
         rewrite: (path) => path.replace(/^\/api/, ''), // Remove '/api' prefix
       },
     },
