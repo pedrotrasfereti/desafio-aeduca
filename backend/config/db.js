@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import dotenv from 'dotenv';
 import mysql from 'mysql2/promise.js';
 
@@ -12,7 +14,7 @@ const pool = mysql.createPool({
   // Protect server with SSL
   ssl: {
     rejectUnauthorized: true,
-    ca: '/etc/ssl/certs/ca-certificates.crt',
+    ca: fs.readFileSync('/etc/ssl/certs/ca-certificates.crt'),
   },
   // Ensure persistent connection
   waitForConnections: true,
