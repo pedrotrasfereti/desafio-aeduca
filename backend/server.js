@@ -9,7 +9,12 @@ import {
   authorizeAdmin,
   errorMiddleware,
 } from './middlewares/index.js';
-import { authRoutes, studentRoutes, userRoutes } from './routes/index.js';
+import {
+  authRoutes,
+  healthRoute,
+  studentRoutes,
+  userRoutes,
+} from './routes/index.js';
 
 dotenv.config(); // Load environment variables
 
@@ -35,6 +40,7 @@ app.use(
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/health', healthRoute);
 app.use('/api/students', authenticateJWT, authorizeAdmin, studentRoutes);
 app.use('/api/users', userRoutes);
 
